@@ -31,7 +31,7 @@ const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
   
     useEffect(()=>{
         setFields()
-    })
+    }, [product])
     const [form] = Form.useForm();
     const setFields = ()=>{
         form.setFieldsValue({
@@ -46,9 +46,8 @@ const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
     console.log(product?.categoryId);
     
     const onFinish = (value: any) => {
-        // props.onUpdate(value);
-        // navigate('admin/products')
-        console.log(value);
+        props.onUpdate(value);
+        navigate('admin/products')
         
     }
     const onFinishFailed = (errorInfo :any) => {
@@ -87,12 +86,10 @@ const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
         <TextArea rows={4} />
       </Form.Item>
       <Form.Item label="Select" name="categoryId">
-        <Select>
+        <Select defaultValue={product?.categoryId}>
           {data.map((category, index): any =>{
-            category._id == product?.categoryId ? s = "selected": s = "";
-            console.log(s)
               return (
-                  <Select.Option key={index+1} value={category._id} defaultValue={product?.categoryId} >{category.name}</Select.Option>
+                  <Select.Option key={index+1} value={category._id} >{category.name}</Select.Option>
               )
           })}
         </Select>
