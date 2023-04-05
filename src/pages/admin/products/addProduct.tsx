@@ -49,13 +49,18 @@ const AddProduct = (props: Iprop) => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
-        <Form.Item label="Name" name="name">
+        <Form.Item label="Name" name="name"
+       rules={[{ required: true, message: 'Không được để trọng name!' }]}>
           <Input />
         </Form.Item>
-        <Form.Item label="Price" name="price">
+        <Form.Item label="Price" name="price"
+      rules={[{ required: true, message: 'Không được để trong price!' }]}
+      >
           <InputNumber />
         </Form.Item>
-        <Form.Item label="Upload" name="image">
+        <Form.Item label="Upload" name="image" 
+      rules={[{ required: true, message: 'Không được để trong image!' }]}
+      >
           {/* <Upload action="/upload.do" listType="picture-card">
             <div>
               <PlusOutlined />
