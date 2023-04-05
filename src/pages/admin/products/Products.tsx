@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Table, Button, Space } from 'antd';
+import { Button, Space, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import { IProduct, IProps } from "../../../interface/product";
-import { Outlet,Link } from 'react-router-dom';
 
 const Adminproduct = (props: IProps) => {
 

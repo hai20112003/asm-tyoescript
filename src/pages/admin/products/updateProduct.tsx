@@ -18,9 +18,8 @@ interface Props {
 }
 const UpdateProduct = (props: Props) => {
     const { TextArea } = Input;
-const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
     const {id} = useParams();
-    const navigate =useNavigate()
+    const navigate =useNavigate();
     const [data, setData] = useState<ICategory[]>([]);
     const [product, setProduct] = useState<IProduct>()
     useEffect(() => {

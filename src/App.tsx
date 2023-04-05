@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 // import './App.css'
-import HomePage from './pages/clients/HomePage'
-import ProductPage from './pages/admin/products/Products'
+import { addCategory, deleteCategory, getAllCategory, updateCategory } from './api/category'
+import { addProduct, deleteProduct, getAllProduct, updateProduct } from './api/product'
+import LayoutAdmin from './compronents/layoutAdmin'
+import LayoutClient from './compronents/layoutClient'
+import { ICategory, IProduct } from './interface/product'
+import Dashboard from './pages/admin/Dashboard'
+import AddCategory from './pages/admin/categories/addCategory'
+import AdminCategory from './pages/admin/categories/category'
+import { default as Adminproduct, default as ProductPage } from './pages/admin/products/Products'
 import AddProduct from './pages/admin/products/addProduct'
-import { addProduct, getAllProduct, updateProduct } from './api/product'
+import UpdateProduct from './pages/admin/products/updateProduct'
+import HomePage from './pages/clients/HomePage'
 import ProductDetailPage from './pages/clients/ProductDetail'
 import Signin from './pages/clients/signin'
-import LayoutAdmin from './compronents/layoutAdmin'
-import Dashboard from './pages/admin/Dashboard'
-import Adminproduct from './pages/admin/products/Products'
-import { deleteProduct } from './api/product'
-import { IProduct } from './interface/product'
-import { getAllCategory } from './api/category'
-import UpdateProduct from './pages/admin/products/updateProduct'
-import LayoutClient from './compronents/layoutClient'
 import Signup from './pages/clients/signup'
+import UpdateCategory from './pages/admin/categories/updateCategory'
 
 function App() {
   const [product,setProduct] = useState([]);
@@ -38,6 +39,18 @@ function App() {
   const onHandleUpdate = (product: IProduct) => {
     updateProduct(product).then(() => getAllProduct().then((({data}) => setProduct(data.data))))
   }
+
+  const onHandleRemoveCate = (id: string) => {
+    deleteCategory(id).then(()=>{
+      setCategory(product.filter((item:IProduct) => {item._id !== id}))
+    })
+  }
+  const onHandleAddCate = (category: ICategory) => {
+    addCategory(category).then(() => getAllCategory().then((({data}) => setCategory(data.data))))
+  }
+  const onHandleUpdateCate = (category: ICategory) => {
+    updateCategory(category).then(() => getAllCategory().then((({data}) => setProduct(data.data))))
+  }
   return (
     <div className="App">
       <Routes>
@@ -58,6 +71,11 @@ function App() {
               <Route index element={< Adminproduct products={product} onRemove= {onHandleRemove} />} />
               <Route path='add' element={< AddProduct onAdd={onHandleAdd} category={category}/>} />
               <Route path=':id/update' element={< UpdateProduct products={product} onUpdate={onHandleUpdate} category={category}/>} />
+            </Route>
+            <Route path='categories'>
+              <Route index element={< AdminCategory category={category} onRemoveCate= {onHandleRemoveCate} />} />
+              <Route path='add' element={< AddCategory onAdd={onHandleAddCate}/>} />
+              <Route path=':id/update' element={< UpdateCategory category={category} onUpdateCate={onHandleUpdateCate} />} />
             </Route>
           </Route>
       </Routes>
