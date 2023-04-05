@@ -26,7 +26,7 @@ const AddProduct = (props: Iprop) => {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
   const onFinish = (value: any) => {
     props.onAdd(value);
-    navigate("admin/products");
+    navigate("/admin/products");
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed", errorInfo);
