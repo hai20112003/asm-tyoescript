@@ -32,7 +32,7 @@ import Signup from "./pages/clients/signup";
 import UpdateCategory from "./pages/admin/categories/updateCategory";
 
 function App() {
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState<IProduct[]>([]);
   const [category, setCategory] = useState([]);
 
   useEffect(() => {
@@ -42,13 +42,9 @@ function App() {
     getAllCategory().then(({ data }) => setCategory(data.data));
   }, []);
   const onHandleRemove = (id: string) => {
-    deleteProduct(id).then(() => {
-      setProduct(
-        product.filter((item: IProduct) => {
-          item._id !== id;
-        })
-      );
-    });
+    deleteProduct(id).then(() => 
+      setProduct(product.filter((item) => item._id !== id))
+    );
   };
   const onHandleAdd = (product: IProduct) => {
     addProduct(product).then(() =>
@@ -64,7 +60,7 @@ function App() {
   const onHandleRemoveCate = (id: string) => {
     deleteCategory(id).then(() => {
       setCategory(
-        product.filter((item: IProduct) => {
+        category.filter((item: ICategory) => {
           item._id !== id;
         })
       );
