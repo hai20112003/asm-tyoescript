@@ -5,13 +5,15 @@ type Props = {
 }
 import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const Signin = (props: Props) => {
-
+  const navigate = useNavigate()
     const onFinish = async (values: any) => {
         const { data: user } = await login(values);
         console.log("user", user);
         localStorage.setItem('user', JSON.stringify(user));
+        navigate('/')
       };
       
       const onFinishFailed = (errorInfo: any) => {

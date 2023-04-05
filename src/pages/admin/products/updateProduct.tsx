@@ -17,7 +17,7 @@ const UpdateProduct = (props: Props) => {
   const [form] = Form.useForm();
   // const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
   const { id } = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [data, setData] = useState<ICategory[]>([]);
   const [product, setProduct] = useState<IProduct>();
 
@@ -29,6 +29,7 @@ const UpdateProduct = (props: Props) => {
   }, [props]);
 
   useEffect(() => {
+    setData(props.category)
   }, [props]);
 
   useEffect(() => {
@@ -47,8 +48,8 @@ const UpdateProduct = (props: Props) => {
   };
 
   const onFinish = (value: any) => {
-    // props.onUpdate(value);
-    // navigate('admin/products')
+    props.onUpdate(value);
+    navigate('/admin/products')
     console.log(value);
   };
 
