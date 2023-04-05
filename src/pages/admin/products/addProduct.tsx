@@ -1,37 +1,37 @@
 import {
-    Button,
-    Checkbox,
-    DatePicker,
-    Form,
-    Input,
-    InputNumber,
-    Select
-} from 'antd';
-import { useEffect, useState } from 'react';
-import { ICategory, IProduct } from '../../../interface/product';
-import { useNavigate } from 'react-router-dom';
+  Button,
+  Checkbox,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+} from "antd";
+import { useEffect, useState } from "react";
+import { ICategory, IProduct } from "../../../interface/product";
+import { useNavigate } from "react-router-dom";
 interface Iprop {
-    category: ICategory[],
-    onAdd: (product: IProduct) => void
+  category: ICategory[];
+  onAdd: (product: IProduct) => void;
 }
-const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 const AddProduct = (props: Iprop) => {
-    const [data, setData] = useState<ICategory[]>([]);
+  const [data, setData] = useState<ICategory[]>([]);
 
   useEffect(() => {
     setData(props.category);
   }, [props]);
-    const navigate = useNavigate()
-    const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
-    const onFinish = (value: any) => {
-        props.onAdd(value);
-        navigate('admin/products')
-    }
-    const onFinishFailed = (errorInfo :any) => {
-        console.log('Failed', errorInfo)
-    }
+  const navigate = useNavigate();
+  const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
+  const onFinish = (value: any) => {
+    props.onAdd(value);
+    navigate("admin/products");
+  };
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed", errorInfo);
+  };
+  
   return (
     <>
       <Checkbox
@@ -49,30 +49,44 @@ const AddProduct = (props: Iprop) => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
-        <Form.Item label="Name" name="name">
+        <Form.Item
+          label="Name"
+          name="name"
+          rules={[{ required: true, message: "Không được để trọng name!" }]}
+        >
           <Input />
         </Form.Item>
-        <Form.Item label="Price" name="price">
+        <Form.Item
+          label="Price"
+          name="price"
+          rules={[{ required: true, message: "Không được để trong price!" }]}
+        >
           <InputNumber />
         </Form.Item>
-        <Form.Item label="Upload" name="image">
+        <Form.Item
+          label="Upload"
+          name="image"
+          rules={[{ required: true, message: "Không được để trong image!" }]}
+        >
           {/* <Upload action="/upload.do" listType="picture-card">
             <div>
               <PlusOutlined />
               <div style={{ marginTop: 8 }}>Upload</div>
             </div>
           </Upload> */}
-           <Input />
+          <Input />
         </Form.Item>
         <Form.Item label="Description" name="description">
           <TextArea rows={4} />
         </Form.Item>
         <Form.Item label="Select" name="categoryId">
           <Select>
-            {data.map((category, index): any =>{
-                return (
-                    <Select.Option key={index+1} value={category._id}>{category.name}</Select.Option>
-                )
+            {data.map((category, index): any => {
+              return (
+                <Select.Option key={index + 1} value={category._id}>
+                  {category.name}
+                </Select.Option>
+              );
             })}
           </Select>
         </Form.Item>
@@ -81,7 +95,7 @@ const AddProduct = (props: Iprop) => {
         </Form.Item>
       </Form>
     </>
-  )
-}
+  );
+};
 
-export default AddProduct
+export default AddProduct;

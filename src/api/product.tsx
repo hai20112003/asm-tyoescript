@@ -23,7 +23,7 @@ const deleteProduct = (id: string | undefined) => {
     })
 }
 const updateProduct = (product: IProduct) => {
-    return instance.patch(`/products/${product._id}`, product,{
+    return instance.put('/products/' + product._id, product,{
         headers:{
             Authorization: `Bearer ${accessToken}`
         }

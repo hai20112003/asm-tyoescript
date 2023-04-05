@@ -24,6 +24,9 @@ const LayoutAdmin = () => {
           <Menu.Item key={2}>
             <Link to={'/admin/products'}>Product</Link>
           </Menu.Item>
+          <Menu.Item key={3}>
+            <Link to={'/admin/categories'}>Categories</Link>
+          </Menu.Item>
         </Menu>
       </Sider>
       <Layout className="site-layout">

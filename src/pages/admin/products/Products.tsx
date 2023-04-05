@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Table, Button, Space } from 'antd';
+import { Button, Space, Table, Input } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import { IProduct, IProps } from "../../../interface/product";
-import { Outlet,Link } from 'react-router-dom';
-
+const { Search } = Input;
 const Adminproduct = (props: IProps) => {
 
   const removeProduct = (id: string) => {
@@ -29,10 +29,17 @@ const Adminproduct = (props: IProps) => {
   useEffect(() => {
     setData(props.products);
   }, [props]);
-
+  const onSearch = (value: string) => {
+      const searchProduct = props.products.filter((product) => product.name.toLowerCase().includes(value.toLowerCase()))
+      setData(searchProduct);
+  };
   return (
     <>
       <Button type="primary"><Link to={'/admin/products/add'}>+ Add Products</Link></Button>
+      <Space direction="vertical">
+        <Search placeholder="input search text" onSearch={onSearch} enterButton />
+      </Space>
+  
       <Table
       columns={columns}
       expandable={{
