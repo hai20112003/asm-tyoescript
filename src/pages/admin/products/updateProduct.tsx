@@ -46,6 +46,9 @@ const UpdateProduct = (props: Props) => {
             categoryID: product?.categoryId
         })
     }
+    // useEffect(() => {
+    //   window.location.reload();
+    // }, []);
     console.log(product?.categoryId);
     
     const onFinish = (value: any) => {
