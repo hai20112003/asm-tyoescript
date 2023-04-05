@@ -8,13 +8,15 @@ import {
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ICategory, IProduct } from '../../../interface/product';
+
+const { Option } = Select;
+
 interface Props {
     products: IProduct[],
     category: ICategory[],
     onUpdate: (product: IProduct) => void
 }
 const UpdateProduct = (props: Props) => {
-    let s= "";
     const { TextArea } = Input;
 const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
     const {id} = useParams();
@@ -32,6 +34,8 @@ const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
     useEffect(()=>{
         setFields()
     }, [product])
+    let s= product?.categoryId;
+
     const [form] = Form.useForm();
     const setFields = ()=>{
         form.setFieldsValue({
@@ -86,10 +90,10 @@ const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
         <TextArea rows={4} />
       </Form.Item>
       <Form.Item label="Select" name="categoryId">
-        <Select defaultValue={product?.categoryId}>
+        <Select defaultValue={s}>
           {data.map((category, index): any =>{
               return (
-                  <Select.Option key={index+1} value={category._id} >{category.name}</Select.Option>
+                  <Option key={index+1} value={category._id} >{category.name}</Option>
               )
           })}
         </Select>

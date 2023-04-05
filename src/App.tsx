@@ -14,6 +14,8 @@ import { deleteProduct } from './api/product'
 import { IProduct } from './interface/product'
 import { getAllCategory } from './api/category'
 import UpdateProduct from './pages/admin/products/updateProduct'
+import LayoutClient from './compronents/layoutClient'
+import Signup from './pages/clients/signup'
 
 function App() {
   const [product,setProduct] = useState([]);
@@ -39,7 +41,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-          <Route path='/'>
+          <Route path='/' element={< LayoutClient />}>
             <Route index element={< HomePage />} />
             <Route path='products'>
                 <Route index element={< ProductPage products={product} onRemove={function (id: string): unknown {
@@ -48,6 +50,7 @@ function App() {
                 <Route path=':id' element={< ProductDetailPage />} />
             </Route>
             <Route path='signin' element={<Signin />} />
+            <Route path='signup' element={<Signup />} />
           </Route>
           <Route path='/admin' element={< LayoutAdmin />}>
             <Route index element={< Dashboard />} />
