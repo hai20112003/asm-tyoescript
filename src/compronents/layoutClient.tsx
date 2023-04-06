@@ -1,8 +1,11 @@
-import { Layout, Menu, Space, theme, Image } from "antd";
+import { Image, Layout, Menu, Space } from "antd";
 import Item from "antd/es/list/Item";
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-const { Header, Content, Footer, Sider } = Layout;
+
+import { IUserToken } from "../interface/user";
+
+const { Header, Content, Footer } = Layout;
 type Props = {};
 const headerStyle: React.CSSProperties = {
   color: "#fff",
@@ -34,13 +37,17 @@ const LayoutClient = (props: Props) => {
   const navigate = useNavigate();
 
   const [openLogin, setOpenLogin] = useState<boolean>(true);
+  const [dataUser, setDataUser] = useState<IUserToken>();
+
   useEffect(() => {
     if (localStorage.getItem("user")) {
+      const { user } = JSON.parse(localStorage.getItem("user")!);
+      setDataUser(user);
       setOpenLogin(false);
     } else {
       setOpenLogin(true);
     }
-  },[]);
+  }, [localStorage.getItem("user")]);
 
   return (
     <Space
@@ -79,7 +86,7 @@ const LayoutClient = (props: Props) => {
             <Menu.Item>About</Menu.Item>
             <Menu.Item>Product</Menu.Item>
             <Menu.Item>Contact</Menu.Item>
-            {openLogin ? (
+            {openLogin && openLogin ? (
               <Menu.Item>
                 <Link to={"signin"}>Login</Link>
               </Menu.Item>
@@ -93,6 +100,11 @@ const LayoutClient = (props: Props) => {
                 >
                   Log out
                 </Item>
+              </Menu.Item>
+            )}
+            {dataUser && dataUser.role === "admin" && (
+              <Menu.Item>
+                <Link to={"/admin"}>Admin</Link>
               </Menu.Item>
             )}
           </Menu>

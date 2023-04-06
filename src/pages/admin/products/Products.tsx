@@ -1,13 +1,16 @@
-import { Button, Space, Table, Input } from "antd";
-import type { ColumnsType } from "antd/es/table";
+import { Button, Input, Space, Table } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import { IProduct, IProps } from "../../../interface/product";
+
+import type { ColumnsType } from "antd/es/table";
 const { Search } = Input;
-const Adminproduct = (props: IProps) => {
+const AdminProduct = (props: IProps) => {
   const removeProduct = (id: string) => {
     props.onRemove(id);
   };
+
   const columns: ColumnsType<IProduct> = [
     { title: "Name", dataIndex: "name", key: "name" },
     { title: "Price", dataIndex: "price", key: "price" },
@@ -18,51 +21,67 @@ const Adminproduct = (props: IProps) => {
       key: "x",
       render: (record) => (
         <Space wrap>
-          <Button>
+          <Button style={{ background: "#1677ff", color: "white" }}>
             {" "}
             <Link to={`/admin/products/${record._id}/update`}>Update</Link>{" "}
           </Button>
-          <Button onClick={() => removeProduct(record._id)}>Remove</Button>
+          <Button
+            style={{ background: "rgb(220 38 38)", color: "white" }}
+            onClick={() => removeProduct(record._id)}
+          >
+            Remove
+          </Button>
         </Space>
       ),
     },
   ];
+
   const [data, setData] = useState<IProduct[]>([]);
 
-  useEffect(() => {
-    setData(props.products);
-  }, [props]);
   const onSearch = (value: string) => {
     const searchProduct = props.products.filter((product) =>
       product.name.toLowerCase().includes(value.toLowerCase())
     );
     setData(searchProduct);
   };
+
+  useEffect(() => {
+    setData(props.products);
+  }, [props]);
+
   return (
     <>
-      <Button type="primary">
-        <Link to={"/admin/products/add"}>+ Add Products</Link>
-      </Button>
-      <Space direction="vertical">
-        <Search
-          placeholder="input search text"
-          onSearch={onSearch}
-          enterButton
-        />
-      </Space>
-
-      <Table
-        columns={columns}
-        expandable={{
-          expandedRowRender: (record) => (
-            <p style={{ margin: 0 }}>{record._id}</p>
-          ),
-          rowExpandable: (record) => record.name !== "Not Expandable",
+      <Space
+        style={{
+          display: "flex",
+          justifyContent: "start",
+          alignItems: "center",
+          columnGap: "20px",
         }}
+      >
+        <Button type="primary">
+          <Link to={"/admin/products/add"}>+ Add Products</Link>
+        </Button>
+        <Space direction="vertical">
+          <Search
+            placeholder="input search text"
+            onSearch={onSearch}
+            enterButton
+          />
+        </Space>
+      </Space>
+      <Table
+        style={{
+          border: "1px solid rgb(156 163 175)",
+          borderRadius: "18px",
+          padding: "5px",
+          marginTop: "20px",
+        }}
+        columns={columns}
         dataSource={data}
       />
     </>
   );
 };
 
-export default Adminproduct;
+export default AdminProduct;
