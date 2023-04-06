@@ -33,6 +33,7 @@ const formItemLayout = {
   },
 };
 type Props = {
+  onAdd: (user: ISignup) => void;
 };
 const Signup = (props: Props) => {
   const [form] = Form.useForm();

@@ -30,6 +30,8 @@ import ProductDetailPage from "./pages/clients/ProductDetail";
 import Signin from "./pages/clients/signin";
 import Signup from "./pages/clients/signup";
 import UpdateCategory from "./pages/admin/categories/updateCategory";
+import { signin1 } from "./api/auth";
+import { ISignup } from "./interface/user";
 
 function App() {
   const [product, setProduct] = useState<IProduct[]>([]);
@@ -76,6 +78,10 @@ function App() {
       getAllCategory().then(({ data }) => setProduct(data.data))
     );
   };
+
+  const onHandleAddTK = (signup : ISignup) => {
+    signin1(signup);
+  };
   return (
     <div className="App">
       <Routes>
@@ -96,7 +102,7 @@ function App() {
             <Route path=":id" element={<ProductDetailPage />} />
           </Route>
           <Route path="signin" element={<Signin />} />
-          <Route path="signup" element={<Signup />} />
+          <Route path="signup" element={<Signup onAdd={onHandleAddTK}/>} />
         </Route>
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index element={<Dashboard />} />
