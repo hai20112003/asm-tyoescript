@@ -20,21 +20,22 @@ const UpdateProduct = (props: Props) => {
   const navigate = useNavigate();
   const [data, setData] = useState<ICategory[]>([]);
   const [product, setProduct] = useState<IProduct>();
-
+  
   useEffect(() => {
     const currentProduct = props.products.find(
       (product: IProduct) => product._id == id
     );
     setProduct(currentProduct);
-  }, [props]);
-
-  useEffect(() => {
     setData(props.category)
   }, [props]);
 
+  // useEffect(() => {
+  //   setData(props.category)
+  // }, [props]);
+
   useEffect(() => {
     setFields();
-  });
+  },[product,data]);
 
   const setFields = () => {
     form.setFieldsValue({
@@ -47,7 +48,7 @@ const UpdateProduct = (props: Props) => {
     });
   };
 
-  const onFinish = (value: any) => {
+  const onFinish = (value: IProduct) => {
     props.onUpdate(value);
     navigate('/admin/products')
     console.log(value);
@@ -63,10 +64,16 @@ const UpdateProduct = (props: Props) => {
       label: item.name,
     }));
   }
+  const getDefaultValue = () => {
+    const test = data.find(item => item._id == product?.categoryId)
+    // console.log(typeof(test?._id));
+    
+    return test?._id
+  }
+  getDefaultValue()
   
   const options: Option[] = convertDataToOptions(data);
-  console.log("xxx", product?.categoryId);
-  console.log("x", options);
+  // console.log("x", options);
 
   return (
     <>
@@ -101,25 +108,19 @@ const UpdateProduct = (props: Props) => {
           <TextArea rows={4} />
         </Form.Item>
         <Form.Item label="Select" name="categoryId">
-          {/* <Select defaultValue={product?.categoryId}>
+
+          {product?.categoryId && (
+                      <Select defaultValue={product.categoryId}>
             {data.map((category) => {
-              // category._id === product?.categoryId
-              //   ? (s = "selected")
-              //   : (s = "");
-              // console.log(s);
               return (
                 <Select.Option key={category._id} value={category._id}>
                   {category.name}
                 </Select.Option>
               );
             })}
-          </Select> */}
-          <Select
-            defaultValue={product?.categoryId}
-            style={{ width: 120, color: "black" }}
-            // onChange={handleChange}
-            options={options}
-          />
+          </Select>
+          )}
+          
         </Form.Item>
         <Form.Item>
           <Button htmlType="submit">Sửa</Button>
