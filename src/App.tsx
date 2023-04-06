@@ -19,6 +19,7 @@ import { ICategory, IProduct } from "./interface/product";
 import Dashboard from "./pages/admin/Dashboard";
 import AddCategory from "./pages/admin/categories/addCategory";
 import AdminCategory from "./pages/admin/categories/category";
+import UpdateCategory from "./pages/admin/categories/updateCategory";
 import {
   default as Adminproduct,
   default as ProductPage,
@@ -29,7 +30,6 @@ import HomePage from "./pages/clients/HomePage";
 import ProductDetailPage from "./pages/clients/ProductDetail";
 import Signin from "./pages/clients/signin";
 import Signup from "./pages/clients/signup";
-import UpdateCategory from "./pages/admin/categories/updateCategory";
 import { signin1 } from "./api/auth";
 import { ISignup } from "./interface/user";
 
@@ -44,7 +44,7 @@ function App() {
     getAllCategory().then(({ data }) => setCategory(data.data));
   }, []);
   const onHandleRemove = (id: string) => {
-    deleteProduct(id).then(() => 
+    deleteProduct(id).then(() =>
       setProduct(product.filter((item) => item._id !== id))
     );
   };

@@ -1,17 +1,16 @@
-import { useForm } from "react-hook-form";
+import { Button, Form, Input, Space } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+
 import { login } from "../../api/auth";
+
 type Props = {};
-import React from "react";
-import { Button, Checkbox, Form, Input, Space } from "antd";
-import { Link, useNavigate, useRoutes } from "react-router-dom";
 
 const Signin = (props: Props) => {
   const navigate = useNavigate();
   const onFinish = async (values: any) => {
     const { data: user } = await login(values);
-    // console.log("user", user);
     localStorage.setItem("user", JSON.stringify(user));
-    navigate("/")
+    navigate("/");
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -30,7 +29,6 @@ const Signin = (props: Props) => {
         autoComplete="off"
       >
         <Form.Item
-        
           style={{ color: "white" }}
           label="Email"
           name="email"
@@ -53,7 +51,9 @@ const Signin = (props: Props) => {
           </Button>
         </Form.Item>
       </Form>
-      <Space>Bạn chưa có tài khoản ? <Link to={'/signup'}>Signup</Link></Space>
+      <Space>
+        Bạn chưa có tài khoản ? <Link to={"/signup"}>Signup</Link>
+      </Space>
     </>
   );
 };

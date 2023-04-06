@@ -1,7 +1,9 @@
 import { Button, Form, Input, InputNumber, Select } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
 import { ICategory, IProduct } from "../../../interface/product";
+
 interface Props {
   products: IProduct[];
   category: ICategory[];
@@ -12,31 +14,27 @@ interface Option {
   label: string;
 }
 const UpdateProduct = (props: Props) => {
-  // let s = "";
   const { TextArea } = Input;
   const [form] = Form.useForm();
-  // const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
   const { id } = useParams();
   const navigate = useNavigate();
   const [data, setData] = useState<ICategory[]>([]);
   const [product, setProduct] = useState<IProduct>();
-  const [products, setProducts] = useState<IProduct[]>([]);
 
   useEffect(() => {
     const currentProduct = props.products.find(
-      (product: IProduct, index) => product._id == id
+      (product: IProduct) => product._id == id
     );
     setProduct(currentProduct);
-    setData(props.category)
+    setData(props.category);
   }, [props]);
 
   useEffect(() => {
     setData(props.category);
-    setProducts(props.products);
   }, [props]);
   useEffect(() => {
     setFields();
-  },[product,data]);
+  }, [product, data]);
 
   const setFields = () => {
     form.setFieldsValue({
@@ -50,8 +48,11 @@ const UpdateProduct = (props: Props) => {
   };
 
   const onFinish = (value: IProduct) => {
+    if (typeof value.categoryId === "undefined") {
+      value.categoryId = product?.categoryId || "";
+    }
     props.onUpdate(value);
-    navigate('/admin/products')
+    navigate("/admin/products");
     console.log(value);
   };
 
@@ -66,7 +67,6 @@ const UpdateProduct = (props: Props) => {
     }));
   }
   const options: Option[] = convertDataToOptions(data);
-  // console.log("x", options);
 
   return (
     <>
@@ -101,19 +101,17 @@ const UpdateProduct = (props: Props) => {
           <TextArea rows={4} />
         </Form.Item>
         <Form.Item label="Select" name="categoryId">
-
           {product?.categoryId && (
-                      <Select defaultValue={product.categoryId}>
-            {data.map((category) => {
-              return (
-                <Select.Option key={category._id} value={category._id}>
-                  {category.name}
-                </Select.Option>
-              );
-            })}
-          </Select>
+            <Select defaultValue={product.categoryId}>
+              {data.map((category) => {
+                return (
+                  <Select.Option key={category._id} value={category._id}>
+                    {category.name}
+                  </Select.Option>
+                );
+              })}
+            </Select>
           )}
-          
         </Form.Item>
         <Form.Item>
           <Button htmlType="submit">Sửa</Button>
