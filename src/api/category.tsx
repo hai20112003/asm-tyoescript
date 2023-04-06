@@ -1,7 +1,13 @@
+import { useEffect, useState } from "react";
 import { ICategory } from "../interface/product";
 import instance from "./instance";
 
-const { accessToken } = JSON.parse(localStorage.getItem("user")!);
+let accessToken = "";
+if (localStorage.getItem("user")) {
+  const response = JSON.parse(localStorage.getItem("user")!);
+  accessToken = response.accessToken;
+}
+
 const getAllCategory = () => {
   return instance.get("/categories");
 };
@@ -11,7 +17,7 @@ const getOneCategory = (id: string | undefined) => {
 const addCategory = (category: ICategory) => {
   return instance.post("/categories", category, {
     headers: {
-        Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };

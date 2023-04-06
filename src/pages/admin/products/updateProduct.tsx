@@ -20,17 +20,25 @@ const UpdateProduct = (props: Props) => {
   // const navigate = useNavigate();
   const [data, setData] = useState<ICategory[]>([]);
   const [product, setProduct] = useState<IProduct>();
+  const [products, setProducts] = useState<IProduct[]>([]);
 
   useEffect(() => {
     const currentProduct = props.products.find(
-      (product: IProduct) => product._id == id
+      (product: IProduct, index) => product._id == id
     );
     setProduct(currentProduct);
   }, [props]);
 
   useEffect(() => {
+    setData(props.category);
+    setProducts(props.products);
   }, [props]);
+  // useEffect(() => {
+  //   products.map((item: IProduct)=> {
+  //     if(item.categoryId === ) {
 
+  //   })
+  // })
   useEffect(() => {
     setFields();
   });
@@ -46,7 +54,7 @@ const UpdateProduct = (props: Props) => {
     });
   };
 
-  const onFinish = (value: any) => {
+  const onFinish = (value: IProduct) => {
     // props.onUpdate(value);
     // navigate('admin/products')
     console.log(value);
@@ -62,7 +70,7 @@ const UpdateProduct = (props: Props) => {
       label: item.name,
     }));
   }
-  
+
   const options: Option[] = convertDataToOptions(data);
   console.log("xxx", product?.categoryId);
   console.log("x", options);
@@ -113,12 +121,16 @@ const UpdateProduct = (props: Props) => {
               );
             })}
           </Select> */}
-          <Select
-            defaultValue={product?.categoryId}
-            style={{ width: 120, color: "black" }}
-            // onChange={handleChange}
-            options={options}
-          />
+          {product?.categoryId && (
+            <Select
+              // initialValue: "lucy"
+              defaultValue={product?.categoryId}
+              style={{ width: 120, color: "black" }}
+              // onChange={handleChange}
+              options={options}
+              value={product?.categoryId}
+            />
+          )}
         </Form.Item>
         <Form.Item>
           <Button htmlType="submit">Sửa</Button>
