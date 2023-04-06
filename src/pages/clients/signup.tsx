@@ -1,20 +1,14 @@
-import type { CascaderProps } from "antd";
 import {
-    AutoComplete,
   Button,
-  Cascader,
   Checkbox,
-  Col,
   Form,
   Input,
-  InputNumber,
-  Row,
-  Select,
+  Select
 } from "antd";
-import React, { useState } from "react";
-
+import { useNavigate } from 'react-router-dom';
+import { ISignup } from "../../interface/user";
 const { Option } = Select;
-type Props = {};
+
 const tailFormItemLayout = {
   wrapperCol: {
     xs: {
@@ -38,47 +32,14 @@ const formItemLayout = {
     sm: { span: 16 },
   },
 };
+type Props = {
+};
 const Signup = (props: Props) => {
   const [form] = Form.useForm();
-
+  const navigate = useNavigate()
   const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+    navigate('/signin');
   };
-
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    </Form.Item>
-  );
-
-  const suffixSelector = (
-    <Form.Item name="suffix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="USD">$</Option>
-        <Option value="CNY">¥</Option>
-      </Select>
-    </Form.Item>
-  );
-
-  const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
-
-  const onWebsiteChange = (value: string) => {
-    if (!value) {
-      setAutoCompleteResult([]);
-    } else {
-      setAutoCompleteResult(
-        [".com", ".org", ".net"].map((domain) => `${value}${domain}`)
-      );
-    }
-  };
-
-  const websiteOptions = autoCompleteResult.map((website) => ({
-    label: website,
-    value: website,
-  }));
 
   return (
     <Form
@@ -93,6 +54,20 @@ const Signup = (props: Props) => {
       style={{ maxWidth: 600 }}
       scrollToFirstError
     >
+            <Form.Item
+        name="name"
+        label="Name"
+        tooltip="What do you want others to call you?"
+        rules={[
+          {
+            required: true,
+            message: "Please input your nickname!",
+            whitespace: true,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
       <Form.Item
         name="email"
         label="E-mail"
@@ -125,7 +100,8 @@ const Signup = (props: Props) => {
       </Form.Item>
 
       <Form.Item
-        name="confirm"
+        style={{color: "white"}}
+        name="confirmpassword"
         label="Confirm Password"
         dependencies={["password"]}
         hasFeedback
@@ -148,72 +124,6 @@ const Signup = (props: Props) => {
       >
         <Input.Password />
       </Form.Item>
-
-      <Form.Item
-        name="nickname"
-        label="Nickname"
-        tooltip="What do you want others to call you?"
-        rules={[
-          {
-            required: true,
-            message: "Please input your nickname!",
-            whitespace: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        name="phone"
-        label="Phone Number"
-        rules={[{ required: true, message: "Please input your phone number!" }]}
-      >
-        <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
-      </Form.Item>
-
-      <Form.Item
-        name="donation"
-        label="Donation"
-        rules={[{ required: true, message: "Please input donation amount!" }]}
-      >
-        <InputNumber addonAfter={suffixSelector} style={{ width: "100%" }} />
-      </Form.Item>
-
-      <Form.Item
-        name="website"
-        label="Website"
-        rules={[{ required: true, message: "Please input website!" }]}
-      >
-        <AutoComplete
-          options={websiteOptions}
-          onChange={onWebsiteChange}
-          placeholder="website"
-        >
-          <Input />
-        </AutoComplete>
-      </Form.Item>
-
-      <Form.Item
-        name="intro"
-        label="Intro"
-        rules={[{ required: true, message: "Please input Intro" }]}
-      >
-        <Input.TextArea showCount maxLength={100} />
-      </Form.Item>
-
-      <Form.Item
-        name="gender"
-        label="Gender"
-        rules={[{ required: true, message: "Please select gender!" }]}
-      >
-        <Select defaultValue={"other"} placeholder="select your gender">
-          <Option value="male">Male</Option>
-          <Option value="female">Female</Option>
-          <Option value="other">Other</Option>
-        </Select>
-      </Form.Item>
-
       <Form.Item
         name="agreement"
         valuePropName="checked"
@@ -227,7 +137,7 @@ const Signup = (props: Props) => {
         ]}
         {...tailFormItemLayout}
       >
-        <Checkbox>
+        <Checkbox style={{color: "white"}}>
           I have read the <a href="">agreement</a>
         </Checkbox>
       </Form.Item>

@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { login } from "../../api/auth";
 type Props = {};
 import React from "react";
-import { Button, Checkbox, Form, Input } from "antd";
-import { useNavigate, useRoutes } from "react-router-dom";
+import { Button, Checkbox, Form, Input, Space } from "antd";
+import { Link, useNavigate, useRoutes } from "react-router-dom";
 
 const Signin = (props: Props) => {
   const navigate = useNavigate();
@@ -53,6 +53,7 @@ const Signin = (props: Props) => {
           </Button>
         </Form.Item>
       </Form>
+      <Space>Bạn chưa có tài khoản ? <Link to={'/signup'}>Signup</Link></Space>
     </>
   );
 };

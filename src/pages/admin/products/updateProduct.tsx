@@ -17,18 +17,24 @@ const UpdateProduct = (props: Props) => {
   const [form] = Form.useForm();
   // const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
   const { id } = useParams();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [data, setData] = useState<ICategory[]>([]);
   const [product, setProduct] = useState<IProduct>();
+<<<<<<< HEAD
   const [products, setProducts] = useState<IProduct[]>([]);
 
+=======
+  
+>>>>>>> main
   useEffect(() => {
     const currentProduct = props.products.find(
       (product: IProduct, index) => product._id == id
     );
     setProduct(currentProduct);
+    setData(props.category)
   }, [props]);
 
+<<<<<<< HEAD
   useEffect(() => {
     setData(props.category);
     setProducts(props.products);
@@ -36,12 +42,17 @@ const UpdateProduct = (props: Props) => {
   // useEffect(() => {
   //   products.map((item: IProduct)=> {
   //     if(item.categoryId === ) {
+=======
+  // useEffect(() => {
+  //   setData(props.category)
+  // }, [props]);
+>>>>>>> main
 
   //   })
   // })
   useEffect(() => {
     setFields();
-  });
+  },[product,data]);
 
   const setFields = () => {
     form.setFieldsValue({
@@ -55,8 +66,13 @@ const UpdateProduct = (props: Props) => {
   };
 
   const onFinish = (value: IProduct) => {
+<<<<<<< HEAD
     // props.onUpdate(value);
     // navigate('admin/products')
+=======
+    props.onUpdate(value);
+    navigate('/admin/products')
+>>>>>>> main
     console.log(value);
   };
 
@@ -70,10 +86,20 @@ const UpdateProduct = (props: Props) => {
       label: item.name,
     }));
   }
+<<<<<<< HEAD
 
+=======
+  const getDefaultValue = () => {
+    const test = data.find(item => item._id == product?.categoryId)
+    // console.log(typeof(test?._id));
+    
+    return test?._id
+  }
+  getDefaultValue()
+  
+>>>>>>> main
   const options: Option[] = convertDataToOptions(data);
-  console.log("xxx", product?.categoryId);
-  console.log("x", options);
+  // console.log("x", options);
 
   return (
     <>
@@ -108,18 +134,17 @@ const UpdateProduct = (props: Props) => {
           <TextArea rows={4} />
         </Form.Item>
         <Form.Item label="Select" name="categoryId">
-          {/* <Select defaultValue={product?.categoryId}>
+
+          {product?.categoryId && (
+                      <Select defaultValue={product.categoryId}>
             {data.map((category) => {
-              // category._id === product?.categoryId
-              //   ? (s = "selected")
-              //   : (s = "");
-              // console.log(s);
               return (
                 <Select.Option key={category._id} value={category._id}>
                   {category.name}
                 </Select.Option>
               );
             })}
+<<<<<<< HEAD
           </Select> */}
           {product?.categoryId && (
             <Select
@@ -131,6 +156,11 @@ const UpdateProduct = (props: Props) => {
               value={product?.categoryId}
             />
           )}
+=======
+          </Select>
+          )}
+          
+>>>>>>> main
         </Form.Item>
         <Form.Item>
           <Button htmlType="submit">Sửa</Button>
