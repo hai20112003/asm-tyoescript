@@ -32,6 +32,7 @@ import Signin from "./pages/clients/signin";
 import Signup from "./pages/clients/signup";
 import { signin1 } from "./api/auth";
 import { ISignup } from "./interface/user";
+import NotFound from "./pages/notFoud";
 
 function App() {
   const [product, setProduct] = useState<IProduct[]>([]);
@@ -153,6 +154,9 @@ function App() {
             />
           </Route>
         </Route>
+        {/* <Route path="/notFound" element={<NotFound/>}>
+
+        </Route> */}
       </Routes>
     </div>
   );
