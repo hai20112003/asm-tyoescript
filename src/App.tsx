@@ -143,9 +143,7 @@ function App() {
             />
           </Route>
         </Route>
-        {/* <Route path="/notFound" element={<NotFound/>}>
-
-        </Route> */}
+        <Route path='*' element={<NotFound/>} />
       </Routes>
     </div>
   );

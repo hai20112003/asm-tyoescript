@@ -17,12 +17,12 @@ const Signin = (props: Props) => {
     console.log("Failed:", errorInfo);
   };
   return (
-    <>
+    <div className="bg-white w-full min-h-[75vh] pt-9">
       <Form
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600, color: "white", }}
+        style={{ maxWidth: 600, color: "white", width: "70%", margin: "auto"}}
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -46,15 +46,15 @@ const Signin = (props: Props) => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" style={{backgroundColor: "#1677ff"}}>
             Submit
           </Button>
         </Form.Item>
       </Form>
-      <Space>
+      <Space style={{display: "flex", justifyContent: "center"}}>
         Bạn chưa có tài khoản ? <Link to={"/signup"}>Signup</Link>
       </Space>
-    </>
+    </div>
   );
 };
 

@@ -28,7 +28,12 @@ const AdminCategory = (props: IPropsCate) => {
           <Button
             style={{ background: "rgb(220 38 38)", color: "white" }}
             type="primary"
-            onClick={() => removeCategory(record._id)}
+            onClick={() => {
+              let text = "Bạn có chắc chắn muốn xóa không!";
+              if (confirm(text) === true) {
+                removeCategory(record._id);
+              }
+            }}
           >
             Remove
           </Button>

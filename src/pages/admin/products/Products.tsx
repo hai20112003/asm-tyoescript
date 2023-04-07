@@ -1,6 +1,6 @@
 import { Button, Input, Space, Table } from "antd";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { IProduct, IProps } from "../../../interface/product";
 
@@ -15,19 +15,25 @@ const AdminProduct = (props: IProps) => {
     { title: "Name", dataIndex: "name", key: "name" },
     { title: "Price", dataIndex: "price", key: "price" },
     { title: "Image", dataIndex: "image", key: "image" },
+    { title: "Description", dataIndex: "description", key: "description" },
     {
       title: "Action",
       dataIndex: "",
       key: "x",
       render: (record) => (
-        <Space wrap>
+        <Space wrap className="flex justify-center">
           <Button style={{ background: "#1677ff", color: "white" }}>
             {" "}
             <Link to={`/admin/products/${record._id}/update`}>Update</Link>{" "}
           </Button>
           <Button
             style={{ background: "rgb(220 38 38)", color: "white" }}
-            onClick={() => removeProduct(record._id)}
+            onClick={() => {
+              let text = "Bạn có chắc chắn muốn xóa không ";
+              if (confirm(text) === true) {
+                removeProduct(record._id);
+              }
+            }}
           >
             Remove
           </Button>
@@ -64,7 +70,7 @@ const AdminProduct = (props: IProps) => {
         </Button>
         <Space direction="vertical">
           <Search
-          className="bg-[#1677ff] rounded-[6px]"
+            className="bg-[#1677ff] rounded-md"
             placeholder="input search text"
             onSearch={onSearch}
             enterButton

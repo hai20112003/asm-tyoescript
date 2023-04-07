@@ -51,8 +51,9 @@ const UpdateProduct = (props: Props) => {
     if (typeof value.categoryId === "undefined") {
       value.categoryId = product?.categoryId || "";
     }
-    props.onUpdate(value);
-    navigate("/admin/products");
+    value.image = base64Image || "";
+    // props.onUpdate(value);
+    // navigate("/admin/products");
     console.log(value);
   };
 
@@ -68,16 +69,19 @@ const UpdateProduct = (props: Props) => {
   // }
   // const options: Option[] = convertDataToOptions(data);
 
-  const [imageBase64, setImageBase64] = useState<string>("");
+  const [base64Image, setBase64Image] = useState<string | null>(null);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageBase64(reader.result as string);
-      };
       reader.readAsDataURL(file);
+      reader.onload = () => {
+        setBase64Image(reader.result as string);
+      };
+      reader.onerror = (error) => {
+        console.error("Error converting image to Base64:", error);
+      };
     }
   };
 
@@ -102,17 +106,15 @@ const UpdateProduct = (props: Props) => {
           <InputNumber />
         </Form.Item>
         <Form.Item label="Upload" name="image">
-          <Upload action="/upload.do" listType="picture-card">
+          {/* <Upload action="/upload.do" listType="picture-card">
           <div>
-            {/* <PlusOutlined /> */}
+            <PlusOutlined />
             <div style={{ marginTop: 8 }}>Upload</div>
           </div>
-        </Upload>
+        </Upload> */}
           {/* <Input /> */}
-          {/* <Input type="file" onChange={handleImageUpload} />
-      {imageBase64 && (
-        <img src={imageBase64} alt="Uploaded" style={{ maxWidth: "100%" }} />
-      )} */}
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+          {base64Image && <img src={base64Image} alt="Converted to Base64" />}
         </Form.Item>
         <Form.Item label="Description" name="description">
           <TextArea rows={4} />
