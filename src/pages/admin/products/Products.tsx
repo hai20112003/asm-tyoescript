@@ -59,11 +59,12 @@ const AdminProduct = (props: IProps) => {
           columnGap: "20px",
         }}
       >
-        <Button type="primary">
+        <Button className="bg-[#1677ff]" type="primary">
           <Link to={"/admin/products/add"}>+ Add Products</Link>
         </Button>
         <Space direction="vertical">
           <Search
+          className="bg-[#1677ff] rounded-[6px]"
             placeholder="input search text"
             onSearch={onSearch}
             enterButton

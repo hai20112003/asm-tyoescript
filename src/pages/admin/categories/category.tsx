@@ -60,11 +60,12 @@ const AdminCategory = (props: IPropsCate) => {
           columnGap: "20px",
         }}
       >
-        <Button type="primary">
+        <Button className="bg-[#1677ff]" type="primary">
           <Link to={"/admin/categories/add"}>+ Add Category</Link>
         </Button>
         <Space direction="vertical">
           <Search
+            className="bg-[#1677ff] rounded-md"
             placeholder="input search text"
             onSearch={onSearch}
             enterButton

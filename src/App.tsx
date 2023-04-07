@@ -20,10 +20,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import AddCategory from "./pages/admin/categories/addCategory";
 import AdminCategory from "./pages/admin/categories/category";
 import UpdateCategory from "./pages/admin/categories/updateCategory";
-import {
-  default as Adminproduct,
-  default as ProductPage,
-} from "./pages/admin/products/Products";
+import Adminproduct from "./pages/admin/products/Products";
 import AddProduct from "./pages/admin/products/addProduct";
 import UpdateProduct from "./pages/admin/products/updateProduct";
 import HomePage from "./pages/clients/HomePage";
@@ -33,10 +30,11 @@ import Signup from "./pages/clients/signup";
 import { signin1 } from "./api/auth";
 import { ISignup } from "./interface/user";
 import NotFound from "./pages/notFoud";
+import ProductPage from "./pages/clients/Products";
 
 function App() {
   const [product, setProduct] = useState<IProduct[]>([]);
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState<ICategory[]>([]);
 
   useEffect(() => {
     getAllProduct().then(({ data }) => setProduct(data.data));
@@ -61,13 +59,9 @@ function App() {
   };
 
   const onHandleRemoveCate = (id: string) => {
-    deleteCategory(id).then(() => {
-      setCategory(
-        category.filter((item: ICategory) => {
-          item._id !== id;
-        })
-      );
-    });
+    deleteCategory(id).then(() =>
+      setCategory(category.filter((item: ICategory) => item._id !== id))
+    );
   };
   const onHandleAddCate = (category: ICategory) => {
     addCategory(category).then(() =>
@@ -80,30 +74,25 @@ function App() {
     );
   };
 
-  const onHandleAddTK = (signup : ISignup) => {
+  const onHandleAddTK = (signup: ISignup) => {
     signin1(signup);
   };
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<LayoutClient />}>
-          <Route index element={<HomePage />} />
-          <Route path="products">
-            <Route
-              index
-              element={
-                <ProductPage
-                  products={product}
-                  onRemove={function (id: string): unknown {
-                    throw new Error("Function not implemented.");
-                  }}
-                />
-              }
-            />
-            <Route path=":id" element={<ProductDetailPage />} />
-          </Route>
+        <Route path="/" element={<LayoutClient categorys={category} />}>
+          <Route index element={<HomePage products={product} />} />
+          {category.map((item) => {
+            return (
+              <Route key={item._id} path={item._id} >
+                <Route index element={<ProductPage products={product} categoryId={item._id} />} />
+                <Route path=":id" element={<ProductDetailPage products={product} />} />
+              </Route>
+            );
+          })}
+
           <Route path="signin" element={<Signin />} />
-          <Route path="signup" element={<Signup onAdd={onHandleAddTK}/>} />
+          <Route path="signup" element={<Signup onAdd={onHandleAddTK} />} />
         </Route>
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index element={<Dashboard />} />

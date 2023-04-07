@@ -4,15 +4,23 @@ import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
 import { IUserToken } from "../interface/user";
+import { ICategory } from "../interface/product";
 
 const { Header, Content, Footer } = Layout;
 type Props = {};
-const LayoutClient = (props: Props) => {
+const LayoutClient = ({ categorys }: { categorys: ICategory[] }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
 
   const [openLogin, setOpenLogin] = useState<boolean>(true);
+  const [openProducts, setOpenProducts] = useState<boolean>(false);
   const [dataUser, setDataUser] = useState<IUserToken>();
+
+  const [dataCategory, setDataCategory] = useState<ICategory[]>([]);
+
+  useEffect(() => {
+    setDataCategory(categorys);
+  }, [categorys]);
 
   useEffect(() => {
     if (localStorage.getItem("user")) {
@@ -50,19 +58,40 @@ const LayoutClient = (props: Props) => {
           className="hidden fixed top-0 left-0 flex flex-col justify-center items-center bg-green-500 w-full h-screen md:bg-transparent md:relative md:h-auto md:flex-row md:justify-end md:flex"
         >
           <li>
-            <a className="block p-4 text-white hover:text-green-500" href="/">
-              <Link to={"/"}>HOME</Link>
-            </a>
+            <Link
+              to={"/"}
+              className="block p-4 text-white hover:text-green-500"
+            >
+              HOME
+            </Link>
           </li>
-          <li>
-            <a className="block p-4 text-white hover:text-green-500" href="#">
-              ABOUT
-            </a>
-          </li>
-          <li>
-            <a className="block p-4 text-white hover:text-green-500" href="#">
-              PORTFOLIO
-            </a>
+          <li
+            onMouseEnter={() => setOpenProducts(true)}
+            onMouseLeave={() => setOpenProducts(false)}
+          >
+            <div className="block p-4 text-white hover:text-green-500 cursor-pointer">
+              PRODUCTS
+            </div>
+            {openProducts ? (
+              <ul className="absolute bg-white z-10 rounded-xl">
+                {dataCategory.map((item) => {
+                  return (
+                    <li>
+                      <Link
+                        key={item._id}
+                        to={item._id}
+                        onClick={() => setOpenProducts(false)}
+                        className="block p-4 hover:bg-white hover:text-green-500 rounded-xl"
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <></>
+            )}
           </li>
           <li>
             {openLogin && openLogin ? (
@@ -136,25 +165,20 @@ const LayoutClient = (props: Props) => {
           {open ? (
             <ul className="absolute text-white bg-green-500 border-1 border-green-500 top-10 w-40 right-0 text-right rounded-xl">
               <li className="">
-                <a className="block p-4 hover:bg-white hover:text-green-500 rounded-t-xl" href="/">
-                  <Link to={"/"}>HOME</Link>
-                </a>
+                <Link
+                  to={"/"}
+                  className="block p-4 hover:bg-white hover:text-green-500 rounded-t-xl"
+                >
+                  HOME
+                </Link>
               </li>
               <li>
-                <a
+                <Link
+                  to={"/"}
                   className="block p-4 hover:bg-white hover:text-green-500"
-                  href="#"
                 >
-                  ABOUT
-                </a>
-              </li>
-              <li>
-                <a
-                  className="block p-4 hover:bg-white hover:text-green-500"
-                  href="#"
-                >
-                  PORTFOLIO
-                </a>
+                  PRODUCTS
+                </Link>
               </li>
               <li>
                 {openLogin && openLogin ? (
@@ -236,12 +260,12 @@ const LayoutClient = (props: Props) => {
                 </svg>
               </div>
             </div>
-            <div className="flex my-3">
+            {/* <div className="flex my-3">
               <img className="px-1" src="../img/a.png" alt="" />
               <img className="px-1" src="../img/b.png" alt="" />
               <img className="px-1" src="../img/c.png" alt="" />
               <img className="px-1" src="../img/d.png" alt="" />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

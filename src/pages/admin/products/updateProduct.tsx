@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber, Select } from "antd";
+import { Button, Form, Input, InputNumber, Select, Upload } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -60,13 +60,26 @@ const UpdateProduct = (props: Props) => {
     console.log("Failed", errorInfo);
   };
 
-  function convertDataToOptions(data: ICategory[]): Option[] {
-    return data.map((item) => ({
-      value: item._id,
-      label: item.name,
-    }));
-  }
-  const options: Option[] = convertDataToOptions(data);
+  // function convertDataToOptions(data: ICategory[]): Option[] {
+  //   return data.map((item) => ({
+  //     value: item._id,
+  //     label: item.name,
+  //   }));
+  // }
+  // const options: Option[] = convertDataToOptions(data);
+
+  const [imageBase64, setImageBase64] = useState<string>("");
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageBase64(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <>
@@ -89,13 +102,17 @@ const UpdateProduct = (props: Props) => {
           <InputNumber />
         </Form.Item>
         <Form.Item label="Upload" name="image">
-          {/* <Upload action="/upload.do" listType="picture-card">
+          <Upload action="/upload.do" listType="picture-card">
           <div>
-            <PlusOutlined />
+            {/* <PlusOutlined /> */}
             <div style={{ marginTop: 8 }}>Upload</div>
           </div>
-        </Upload> */}
-          <Input />
+        </Upload>
+          {/* <Input /> */}
+          {/* <Input type="file" onChange={handleImageUpload} />
+      {imageBase64 && (
+        <img src={imageBase64} alt="Uploaded" style={{ maxWidth: "100%" }} />
+      )} */}
         </Form.Item>
         <Form.Item label="Description" name="description">
           <TextArea rows={4} />

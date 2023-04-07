@@ -22,7 +22,7 @@ const Signin = (props: Props) => {
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600, color: "white" }}
+        style={{ maxWidth: 600, color: "white", }}
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
